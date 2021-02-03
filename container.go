@@ -89,7 +89,7 @@ func NewContainer() Container {
 	ctn.Url = flag.String("url", env("RABBITMQ_URL", "amqp://go1:go1@127.0.0.1:5672/"), "")
 	ctn.Kind = flag.String("kind", env("RABBITMQ_KIND", "topic"), "")
 	ctn.Exchange = flag.String("exchange", env("RABBITMQ_EXCHANGE", "events"), "")
-	ctn.RoutingKey = flag.String("routing-key", env("RABBITMQ_ROUTING_KEY", "es.writer.go1"), "")
+	ctn.RoutingKey = flag.String("routing-key", env("RABBITMQ_ROUTING_KEY", "es.writer"), "")
 	ctn.PrefetchCount = flag.Int("prefetch-count", iPrefetchCount, "")
 	ctn.PrefetchSize = flag.Int("prefetch-size", 0, "")
 	ctn.TickInterval = flag.Duration("tick-iterval", time.Duration(iDuration)*time.Second, "")

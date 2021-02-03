@@ -3,8 +3,9 @@ package action
 import (
 	"context"
 	"encoding/json"
-	"gopkg.in/olivere/elastic.v5"
 	"net/url"
+
+	"gopkg.in/olivere/elastic.v5"
 )
 
 type SimpleQuery struct {
@@ -32,7 +33,7 @@ func (q *SimpleQuery) Source() (interface{}, error) {
 
 type Command struct {
 	Index          string `json:"_index"`
-	Routing        string `json:"_routing,omitempty"`
+	Routing        string `json:"routing,omitempty"`
 	Parent         string `json:"_parent,omitempty"`
 	Type           string `json:"_type,omitempty"`
 	Id             string `json:"_id,omitempty"`
