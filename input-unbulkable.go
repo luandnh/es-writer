@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"gopkg.in/olivere/elastic.v5"
 
-	"github.com/go1com/es-writer/action"
+	"es-writer/action"
 )
 
 func hanldeUpdateByQuery(ctx context.Context, client *elastic.Client, element action.Element, requestType string) error {

@@ -8,7 +8,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/go1com/es-writer/action"
+	"es-writer/action"
 
 	"github.com/sirupsen/logrus"
 	"gopkg.in/olivere/elastic.v5"

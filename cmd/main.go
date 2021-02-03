@@ -10,7 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 
-	"github.com/go1com/es-writer"
+	"es-writer"
 )
 
 func main() {
@@ -29,6 +29,8 @@ func main() {
 		logrus.Infof("RabbitMQ queue name: %s", *ctn.QueueName)
 		logrus.Infof("RabbitMQ consumer name: %s", *ctn.ConsumerName)
 		logrus.Infof("ElasticSearch URL: %s", *ctn.EsUrl)
+		logrus.Infof("ElasticSearch Username: %s", *ctn.EsUsername)
+		logrus.Infof("ElasticSearch Password: %s", *ctn.EsPassword)
 		logrus.Infof("Tick interval: %s", *ctn.TickInterval)
 		logrus.Infof("URL must contains: %s", *ctn.UrlContain)
 		logrus.Infof("URL must not contains: %s", *ctn.UrlNotContain)

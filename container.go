@@ -14,7 +14,7 @@ import (
 	"gopkg.in/olivere/elastic.v5"
 	"gopkg.in/olivere/elastic.v5/config"
 
-	"github.com/go1com/es-writer/action"
+	"es-writer/action"
 )
 
 var (
@@ -43,6 +43,8 @@ type Container struct {
 	UrlNotContain *string
 	ConsumerName  *string
 	EsUrl         *string
+	EsUsername    *string
+	EsPassword    *string
 	AdminPort     *string
 	Debug         *bool
 	Refresh       *string
@@ -95,7 +97,9 @@ func NewContainer() Container {
 	ctn.UrlContain = flag.String("url-contains", env("URL_CONTAINS", ""), "")
 	ctn.UrlNotContain = flag.String("url-not-contains", env("URL_NOT_CONTAINS", ""), "")
 	ctn.ConsumerName = flag.String("consumer-name", env("RABBITMQ_CONSUMER_NAME", "es-writter"), "")
-	ctn.EsUrl = flag.String("es-url", env("ELASTIC_SEARCH_URL", "http://127.0.0.1:9200/?sniff=false"), "")
+	ctn.EsUrl = flag.String("es-url", env("ES_URL", "http://127.0.0.1:9200/?sniff=false"), "")
+	ctn.EsUsername = flag.String("es-username", env("ES_USERNAME", "elastic"), "")
+	ctn.EsPassword = flag.String("es-password", env("ES_PASSWORD", "elastic"), "")
 	ctn.Debug = flag.Bool("debug", false, "Enable with care; credentials can be leaked if this is on.")
 	ctn.AdminPort = flag.String("admin-port", env("ADMIN_PORT", ":8001"), "")
 	ctn.Refresh = flag.String("refresh", env("ES_REFRESH", "true"), "")
@@ -125,8 +129,7 @@ func (this *Container) queueConnection() (*amqp.Connection, error) {
 	go func() {
 		conCloseChan := con.NotifyClose(make(chan *amqp.Error))
 
-		select
-		{
+		select {
 		case err := <-conCloseChan:
 			if err != nil {
 				logrus.WithError(err).Panicln("RabbitMQ connection error.")
@@ -170,8 +173,7 @@ func (this *Container) queueChannel(con *amqp.Connection) (*amqp.Channel, error)
 	go func() {
 		chCloseChan := ch.NotifyClose(make(chan *amqp.Error))
 
-		select
-		{
+		select {
 		case err := <-chCloseChan:
 			if err != nil {
 				this.Logger.WithError(err).Errorln("RabbitMQ channel error.")
@@ -187,6 +189,8 @@ func (this *Container) queueChannel(con *amqp.Connection) (*amqp.Channel, error)
 
 func (this *Container) elasticSearchClient() (*elastic.Client, error) {
 	cfg, err := config.Parse(*this.EsUrl)
+	cfg.Username = *this.EsUsername
+	cfg.Password = *this.EsPassword
 	if err != nil {
 		logrus.Fatalf("failed to parse URL: %s", err.Error())
 
