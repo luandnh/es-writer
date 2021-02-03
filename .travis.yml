@@ -1,0 +1,13 @@
+dist:     trusty
+language: go
+go:
+  - stable
+services:
+  - rabbitmq
+  - elasticsearch
+env:
+  - RABBITMQ_URL=amqp://guest:guest@127.0.0.1:5672/ ELASTIC_SEARCH_URL=http://127.0.0.1:9200/?sniff=false
+install:
+  - GO111MODULE=on go mod vendor
+script:
+  - go test -race -v ./...

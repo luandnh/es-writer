@@ -1,0 +1,38 @@
+{
+  "http_method": "PUT",
+  "uri": "/go1_qa",
+  "body": {
+    "mappings": {
+      "portal": {
+        "_routing": {
+          "required": true
+        },
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "title": {
+            "type": "keyword",
+            "fields": {
+              "analyzed": {
+                "type": "text"
+              }
+            }
+          },
+          "status": {
+            "type": "short"
+          },
+          "name": {
+            "type": "keyword"
+          },
+          "author": {
+            "properties": {
+              "name": {"type": "text"},
+              "email": {"type": "text"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

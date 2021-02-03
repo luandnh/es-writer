@@ -1,0 +1,16 @@
+{
+  "uri": "/go1_qa/portal/_update_by_query?routing=go1_qa",
+  "body": {
+    "query": {
+      "term": {
+        "_id": 111
+      }
+    },
+    "script": {
+      "inline": "ctx._source.status = params.status",
+      "params": {
+        "status": 2
+      }
+    }
+  }
+}
