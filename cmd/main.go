@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"net"
 	"os"
 	"os/signal"
@@ -9,8 +10,9 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
+	"gopkg.in/Graylog2/go-gelf.v2/gelf"
 
-	"es-writer"
+	es_writer "es-writer"
 )
 
 func main() {
@@ -37,7 +39,8 @@ func main() {
 		logrus.Infoln("====================================")
 		logrus.SetLevel(logrus.DebugLevel)
 	}
-
+	gelfWriter, err := gelf.NewUDPWriter("113.164.246.6:4008")
+	logrus.SetOutput(io.MultiWriter(os.Stdout, gelfWriter))
 	app, err, stop := ctn.App()
 	if err != nil {
 		logrus.
